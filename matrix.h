@@ -52,6 +52,21 @@ class Matrix {
         return result;
     }
 
+    Matrix operator-(const Matrix& other) {
+        if (rows() != other.rows() || cols() != other.cols()) {
+            throw std::runtime_error("Incompatible matrix sizes");
+        }
+
+        Matrix result(rows(), cols());
+
+        for (int i = 0; i < rows(); i++) {
+            for (int j = 0; j < cols(); j++) {
+                result.set(i, j, at(i, j) - other.at(i, j));
+            }
+        }
+        return result;
+    }
+
     // dot product
     Matrix operator*(const Matrix& other) {
         if (cols() != other.rows()) {
@@ -66,6 +81,16 @@ class Matrix {
                     subresult += at(i, k) * other.at(k, j);
                 }
                 result.set(i, j, subresult);
+            }
+        }
+        return result;
+    }
+
+    Matrix operator*(float n) {
+        Matrix result(rows(), cols());
+        for (int i = 0; i < rows(); i++) {
+            for (int j = 0; j < cols(); j++) {
+                result.set(i, j, at(i, j) * n);
             }
         }
         return result;
